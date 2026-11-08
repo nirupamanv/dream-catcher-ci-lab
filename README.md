@@ -123,3 +123,5 @@ Note: The SQLite database file will be stored in Render's ephemeral filesystem. 
 ## License
 
 MIT
+## CI Workflow
+This project uses GitHub Actions for continuous integration.
