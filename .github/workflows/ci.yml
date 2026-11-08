@@ -1,0 +1,44 @@
+
+name: Dream-catcher CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check server.js
+          node --check routes/dreams.js
+          node --check config/database-init.js
+          node --check config/database.js
+          node --check utils/ai-gemini.js
+          node --check utils/ai-openai.js
+          node --check utils/validateText.js
+          node --check public/app.js
+
+      - name: Verify application entry point
+        run: test -f server.js
